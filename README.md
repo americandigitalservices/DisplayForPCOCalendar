@@ -1,5 +1,7 @@
 # DisplayForPCOCalendar
 
+![Screenshot 2024-06-03 at 1 26 57 PM (2)](images/sample.png)
+
 ## Purpose
 
 	Displays calendar events from Planning Center Online (PCO) on a TV using Python and your API keys.
@@ -46,7 +48,6 @@ The Planning Center Calendar has tags for Types that must be added to every even
 ## TODO:
 
 	+ Add more details to readme.md
-		+ Images
 		+ Config
 		+ PCO Developer instructions
 	+ Detect if the image is not in the configured format (details to 16x9) or below the minimum size (defaults to 1920x1080) and ignore or provide an error message.
