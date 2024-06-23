@@ -48,6 +48,15 @@ def fetch_always_show_event_instances():
         return []
 
 
+def fetch_in_church_only_event_instances():
+    response = requests.get(f"{api_base_url}event_instances?where[tag_ids]={in_church_only_id}&include=event,attachments&filter=future&order=starts_at", headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print('Failed to fetch event instances:', response.status_code, response.text)
+        return []
+
+
 def fetch_event_image(image_url):
     if image_url:
         image_response = requests.get(image_url)
@@ -153,9 +162,12 @@ def restart_program():
 def main():
     pygame.init()
     screen = pygame.display.set_mode(bottom_right, pygame.FULLSCREEN)
+    pygame.mouse.set_visible(False)
+    in_church_only_events = fetch_in_church_only_event_instances()
     featured_events = fetch_always_show_event_instances()
     events = fetch_event_instances()
     overlay = draw_overlay()
+    build_event_images(in_church_only_events, overlay, True)
     build_event_images(featured_events, overlay, True)
     build_event_images(events, overlay)
     app_start_time = pygame.time.get_ticks()
@@ -206,6 +218,7 @@ try:
     application_id = os.getenv('application_id')
     application_secret = os.getenv('application_secret')
     always_show_id = os.getenv('always_show_id')
+    in_church_only_id = os.getenv('in_church_only_id')
     regular_event_id = os.getenv('regular_event_id')
     api_base_url = os.getenv('api_base_url', 'https://api.planningcenteronline.com/calendar/v2/')
     logo_path = os.getenv('logo_path', 'images/logo.png')
